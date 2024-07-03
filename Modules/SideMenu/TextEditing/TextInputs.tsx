@@ -1,5 +1,8 @@
 import FontStyleControls from "./FontStyle";
 import BoxModelInputs from "./BoxModelInputs";
+import LabeledInput from "./Input";
+import Dropdown from "@/public/UI/Dropdown";
+import { useStyleContext } from "../StyleContext";
 
 
 interface InputConfig {
@@ -12,8 +15,20 @@ interface InputConfig {
 
 const TextInputs = ({ handleUpdateStyle, handleChange, saveStyle, handleColorChange}:InputConfig) => {
 
+    const { newStyle, currentStyle } = useStyleContext();
     return(
         <>
+          <Dropdown label="Background Color">
+            <LabeledInput
+              label="Background Color"
+              name="backgroundColor"
+              type="color"
+              value={currentStyle.backgroundColor?.toString() || '#ffffff'}
+              onChange={handleColorChange}
+              onBlur={() => {}}
+              onColorChange={handleColorChange}
+            />
+          </Dropdown>
           <FontStyleControls onUpdateStyle={handleUpdateStyle} />
           <BoxModelInputs
             type="Border"

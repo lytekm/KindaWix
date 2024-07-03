@@ -1,6 +1,7 @@
 import LabeledInput from "../TextEditing/Input";
 import { useStyleContext } from "../StyleContext";
 import BoxModelInputs from "../TextEditing/BoxModelInputs";
+import Dropdown from "@/public/UI/Dropdown";
 
 
 interface InputConfig {
@@ -15,37 +16,39 @@ const ImageInputs = ({ handleChange, saveStyle, handleColorChange, handleUpdateS
 
     return(
         <>
+        <Dropdown label="Image">
           <LabeledInput
             label="Width"
             name="width"
             type="text"
             value={getValueWithoutPx(newStyle.width)}
-            onChange={handleChange} // update this line
+            onChange={handleChange}
             onBlur={saveStyle}
             onColorChange={handleColorChange}
           />
+        </Dropdown>
 
-          <BoxModelInputs
-            type="Border"
-            handleUpdateStyle={handleUpdateStyle}
-            handleChange={handleChange}
-            saveStyle={saveStyle}
-            handleColorChange={handleColorChange}
-          />
-          <BoxModelInputs
-            type="Margin"
-            handleUpdateStyle={handleUpdateStyle}
-            handleChange={handleChange}
-            saveStyle={saveStyle}
-            handleColorChange={handleColorChange}
-          />
-          <BoxModelInputs
-            type="Padding"
-            handleUpdateStyle={handleUpdateStyle}
-            handleChange={handleChange}
-            saveStyle={saveStyle}
-            handleColorChange={handleColorChange}
-          />
+        <BoxModelInputs
+          type="Border"
+          handleUpdateStyle={handleUpdateStyle}
+          handleChange={handleChange}
+          saveStyle={saveStyle}
+          handleColorChange={handleColorChange}
+        />
+        <BoxModelInputs
+          type="Margin"
+          handleUpdateStyle={handleUpdateStyle}
+          handleChange={handleChange}
+          saveStyle={saveStyle}
+          handleColorChange={handleColorChange}
+        />
+        <BoxModelInputs
+          type="Padding"
+          handleUpdateStyle={handleUpdateStyle}
+          handleChange={handleChange}
+          saveStyle={saveStyle}
+          handleColorChange={handleColorChange}
+        />
         </>
     )
 }

@@ -47,6 +47,10 @@ const Home = () => {
     );
   };
 
+  const handleReorderComponents = (newComponents: ComponentData[]) => {
+    setComponents(newComponents);
+  };
+
   const componentStyles = components.reduce((acc, component) => {
     acc[component.id] = component.style || {};
     return acc;
@@ -62,6 +66,7 @@ const Home = () => {
           components={components}
           onSelectComponent={handleSelectComponent}
           onDeleteComponent={handleDeleteComponent}
+          onReorderComponents={handleReorderComponents}
         />
         <StyleProvider>
           <Sidebar

@@ -80,6 +80,9 @@ const Sidebar = ({ onAddComponent, selectedComponent, onUpdateStyle, components 
           <button css={buttonStyle} onClick={() => onAddComponent('Image')}>
             Image
           </button>
+          <button css={buttonStyle} onClick={() => onAddComponent('CaptionPic')}>
+            CaptionPic
+          </button>
         </>
       )}
       {selectedComponent && selectedComponent.type !== "Image" && (
