@@ -6,7 +6,6 @@ import React, { useState } from 'react';
 const imageStyle = css`
   width: 100%;
   height: auto;
-  display: block;
 `;
 
 interface ImageComponentProps {
@@ -28,9 +27,9 @@ const ImageComponent: React.FC<ImageComponentProps> = ({ style }) => {
   };
 
   return (
-    <div style={style}>
+    <div>
       {imageSrc ? (
-        <img src={imageSrc} alt="Uploaded" css={imageStyle} />
+        <img src={imageSrc} alt="Uploaded" css={imageStyle} style={style} />
       ) : (
         <input type="file" accept="image/*" onChange={handleImageUpload} />
       )}

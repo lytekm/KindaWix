@@ -14,7 +14,7 @@ const previewStyle = css`
 `;
 
 const parentStyle = css`
-  padding: 0;
+  position: relative;
 `;
 
 const selectedStyle = css`
@@ -23,8 +23,8 @@ const selectedStyle = css`
 
 const garbageCanStyle = css`
   position: absolute;
-  top: 3px;
-  right: 0px;
+  top: -10px;
+  right: -10px;
   cursor: pointer;
   font-size: 1rem;
 `;
@@ -85,8 +85,7 @@ const Preview = ({ components, onSelectComponent, onDeleteComponent }: {
             }}
           >
             {renderComponent(component)}
-          </div>
-          {selectedComponentId === component.id && (
+            {selectedComponentId === component.id && (
             <div
               css={garbageCanStyle}
               onClick={(e) => {
@@ -97,6 +96,7 @@ const Preview = ({ components, onSelectComponent, onDeleteComponent }: {
               🗑️
             </div>
           )}
+          </div>
         </div>
       ))}
     </div>

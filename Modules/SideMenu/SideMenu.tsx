@@ -2,10 +2,10 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import React, { useState, useEffect } from 'react';
-import TextInputs from './TextInputs/TextInputs';
-import ImageInputs from './ImageInputs/ImageInputs';
+import TextInputs from './TextEditing/TextInputs';
+import ImageInputs from './ImageEditing/ImageInputs';
 import { ComponentData } from '@/public/Types';
-
+import { useStyleContext } from './StyleContext';
 
 const sidebarStyle = css`
   width: 300px;
@@ -16,6 +16,7 @@ const sidebarStyle = css`
 
 const buttonStyle = css`
   display: block;
+  width: 100%;
   margin-bottom: 1rem;
   padding: 0.5rem;
   background-color: #0070f3;
@@ -32,8 +33,7 @@ interface SidebarProps {
 }
 
 const Sidebar = ({ onAddComponent, selectedComponent, onUpdateStyle, components }: SidebarProps) => {
-  const [currentStyle, setCurrentStyle] = useState<React.CSSProperties>({});
-  const [newStyle, setNewStyle] = useState<React.CSSProperties>({});
+  const { newStyle, currentStyle, setCurrentStyle, setNewStyle } = useStyleContext();
 
   useEffect(() => {
     if (selectedComponent && components[selectedComponent.id]) {
@@ -45,7 +45,7 @@ const Sidebar = ({ onAddComponent, selectedComponent, onUpdateStyle, components 
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    const newValue = name === 'backgroundColor' || name === 'color' || name === 'borderColor' ? value : `${value}px`;
+    const newValue = `${value}px`;
     const newStyle = { ...currentStyle, [name]: newValue };
     setNewStyle(newStyle);
   };
@@ -67,32 +67,6 @@ const Sidebar = ({ onAddComponent, selectedComponent, onUpdateStyle, components 
     onUpdateStyle(newStyle);
   };
 
-  const getValueWithoutPx = (value: string | number | undefined): string => {
-    if (typeof value === 'string' && value.endsWith('px')) {
-      return value.replace('px', '');
-    }
-    return value?.toString() || '';
-  };
-
-  const textInputConfigs = [
-    { label: 'Background Color', name: 'backgroundColor', type: 'color', value: currentStyle.backgroundColor?.toString() || '#ffffff' },
-    { label: 'Font Color', name: 'color', type: 'color', value: currentStyle.color?.toString() || '#000000' },
-    { label: 'Font Size', name: 'fontSize', type: 'text', value: getValueWithoutPx(newStyle.fontSize) },
-    { label: 'Padding', name: 'padding', type: 'text', value: getValueWithoutPx(newStyle.padding) },
-    { label: 'Margin', name: 'margin', type: 'text', value: getValueWithoutPx(newStyle.margin) },
-    { label: 'Border Radius', name: 'borderRadius', type: 'text', value: getValueWithoutPx(newStyle.borderRadius) },
-    { label: 'Border Width', name: 'borderWidth', type: 'text', value: getValueWithoutPx(newStyle.borderWidth) },
-    { label: 'Border Color', name: 'borderColor', type: 'color', value: newStyle.borderColor?.toString() || '#000000' },
-  ];
-
-  const imageInputConfigs = [
-    { label: 'Padding', name: 'padding', type: 'text', value: getValueWithoutPx(newStyle.padding) },
-    { label: 'Margin', name: 'margin', type: 'text', value: getValueWithoutPx(newStyle.margin) },
-    { label: 'Border Radius', name: 'borderRadius', type: 'text', value: getValueWithoutPx(newStyle.borderRadius) },
-    { label: 'Border Width', name: 'borderWidth', type: 'text', value: getValueWithoutPx(newStyle.borderWidth) },
-    { label: 'Border Color', name: 'borderColor', type: 'color', value: newStyle.borderColor?.toString() || '#000000' },
-  ];
-
   return (
     <div css={sidebarStyle}>
       {!selectedComponent && (
@@ -111,8 +85,6 @@ const Sidebar = ({ onAddComponent, selectedComponent, onUpdateStyle, components 
       {selectedComponent && selectedComponent.type !== "Image" && (
         <>
           <TextInputs
-            inputConfigs={textInputConfigs}
-            currentStyle={currentStyle}
             handleUpdateStyle={handleUpdateStyle}
             handleChange={handleChange}
             saveStyle={saveStyle}
@@ -124,7 +96,6 @@ const Sidebar = ({ onAddComponent, selectedComponent, onUpdateStyle, components 
       {selectedComponent && selectedComponent.type === "Image" && (
         <>
           <ImageInputs
-            inputConfigs={imageInputConfigs}
             handleUpdateStyle={handleUpdateStyle}
             handleChange={handleChange}
             saveStyle={saveStyle}

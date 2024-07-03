@@ -6,6 +6,7 @@ import Preview from '@/Modules/Preview/Preview';
 import Sidebar from '@/Modules/SideMenu/SideMenu';
 import { useState } from 'react';
 import { ComponentData } from '@/public/Types';
+import { StyleProvider } from '@/Modules/SideMenu/StyleContext';
 
 const containerStyle = css`
   display: flex;
@@ -20,7 +21,7 @@ const Home = () => {
     const newComponent = {
       id: Math.random().toString(36).substring(2, 9),
       type,
-      style: { width: '100%' },
+      style: { borderStyle: 'solid', borderWidth: '0' },
     };
     setComponents([...components, newComponent]);
     setSelectedComponent(null);
@@ -62,12 +63,14 @@ const Home = () => {
           onSelectComponent={handleSelectComponent}
           onDeleteComponent={handleDeleteComponent}
         />
-        <Sidebar
-          onAddComponent={handleAddComponent}
-          selectedComponent={selectedComponent}
-          onUpdateStyle={handleUpdateStyle}
-          components={componentStyles}
-        />
+        <StyleProvider>
+          <Sidebar
+            onAddComponent={handleAddComponent}
+            selectedComponent={selectedComponent}
+            onUpdateStyle={handleUpdateStyle}
+            components={componentStyles}
+          />
+        </StyleProvider>
       </div>
     </div>
   );

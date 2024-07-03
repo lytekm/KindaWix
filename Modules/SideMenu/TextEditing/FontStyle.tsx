@@ -1,18 +1,14 @@
 // components/FontStyleControls.tsx
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import React, { useState } from 'react';
+import React from 'react';
+import Dropdown from '@/public/UI/Dropdown';
+import { useStyleContext } from '../StyleContext';
 
 const labelStyle = css`
   display: block;
   margin-bottom: 0.5rem;
   cursor: pointer;
-`;
-
-const dropdownContentStyle = css`
-  display: none;
-  flex-direction: column;
-  margin-top: 0.5rem;
 `;
 
 const fontStyleSelectStyle = css`
@@ -22,19 +18,6 @@ const fontStyleSelectStyle = css`
   align-items: center;
   gap: 0.5rem;
   margin: 0.5rem 0;
-`;
-
-const dropdownOpenStyle = css`
-  display: flex;
-`;
-
-const arrowStyle = css`
-  margin-left: 0.5rem;
-  transition: transform 0.3s ease;
-`;
-
-const arrowOpenStyle = css`
-  transform: rotate(180deg);
 `;
 
 const textAlignmentStyle = css`
@@ -56,14 +39,12 @@ const fontWeightStyle = css`
 `;
 
 interface FontStyleControlsProps {
-  currentStyle: React.CSSProperties;
   onUpdateStyle: (style: React.CSSProperties) => void;
 }
 
-const FontStyleControls: React.FC<FontStyleControlsProps> = ({ currentStyle, onUpdateStyle }) => {
-  const [isOpen, setIsOpen] = useState(false);
+const FontStyleControls: React.FC<FontStyleControlsProps> = ({ onUpdateStyle }) => {
 
-  const toggleDropdown = () => setIsOpen(!isOpen);
+  const { currentStyle } = useStyleContext();
 
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -78,11 +59,7 @@ const FontStyleControls: React.FC<FontStyleControlsProps> = ({ currentStyle, onU
 
   return (
     <div>
-      <label css={labelStyle} onClick={toggleDropdown}>
-        Font Style Controls
-        <span css={[arrowStyle, isOpen && arrowOpenStyle]}>&#9662;</span>
-      </label>
-      <div css={[dropdownContentStyle, isOpen && dropdownOpenStyle]}>
+      <Dropdown label='Font Style'>
         <div css={fontStyleSelectStyle}>
           <label css={labelStyle}>Font Style</label>
           <select
@@ -135,7 +112,7 @@ const FontStyleControls: React.FC<FontStyleControlsProps> = ({ currentStyle, onU
             Bolder
           </button>
         </div>
-      </div>
+    </Dropdown>
     </div>
   );
 };
