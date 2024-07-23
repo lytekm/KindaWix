@@ -1,7 +1,7 @@
 // components/Sidebar.tsx
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import TextInputs from './TextEditing/TextInputs';
 import ImageInputs from './ImageEditing/ImageInputs';
 import { ComponentData } from '@/public/Types';
@@ -79,9 +79,6 @@ const Sidebar = ({ onAddComponent, selectedComponent, onUpdateStyle, components 
           </button>
           <button css={buttonStyle} onClick={() => onAddComponent('Image')}>
             Image
-          </button>
-          <button css={buttonStyle} onClick={() => onAddComponent('CaptionPic')}>
-            CaptionPic
           </button>
         </>
       )}

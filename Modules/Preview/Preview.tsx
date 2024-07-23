@@ -6,7 +6,6 @@ import { ComponentData } from '@/public/Types';
 import ImageComponent from '../Components/Image';
 import TitleComponent from '../Components/Title';
 import TextComponent from '../Components/Paragraph';
-import TextWithPictureComponent from '../Components/CaptionPic';
 
 const previewStyle = css`
   position: relative;
@@ -48,12 +47,14 @@ const Preview = ({
   components,
   onSelectComponent,
   onDeleteComponent,
-  onReorderComponents
+  onReorderComponents,
+  onUpdateContent,
 }: {
   components: ComponentData[];
   onSelectComponent: (component: ComponentData | null) => void;
   onDeleteComponent: (id: string) => void;
   onReorderComponents: (newComponents: ComponentData[]) => void;
+  onUpdateContent: (id: string, content: string) => void;
 }) => {
   const [selectedComponentId, setSelectedComponentId] = useState<string | null>(null);
   const [draggedComponent, setDraggedComponent] = useState<ComponentData | null>(null);
@@ -97,15 +98,29 @@ const Preview = ({
   };
 
   const renderComponent = (component: ComponentData) => {
+    const handleContentChange = (content: string) => {
+      onUpdateContent(component.id, content);
+    };
+
     switch (component.type) {
       case 'Image':
         return <ImageComponent style={component.style} />;
       case 'Title':
-        return <TitleComponent style={component.style} />;
+        return (
+          <TitleComponent
+            style={component.style}
+            content={component.content}
+            onContentChange={handleContentChange}
+          />
+        );
       case 'Paragraph':
-        return <TextComponent style={component.style} />;
-      case 'CaptionPic':
-        return <TextWithPictureComponent style={component.style} />;
+        return (
+          <TextComponent
+            style={component.style}
+            content={component.content}
+            onContentChange={handleContentChange}
+          />
+        );
       default:
         return <div style={component.style}>{component.type}</div>;
     }

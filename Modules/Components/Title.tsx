@@ -1,6 +1,7 @@
 // components/TitleComponent.tsx
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
+import { on } from 'events';
 import React, { useState } from 'react';
 
 const titleStyle = css`
@@ -16,9 +17,11 @@ const titleStyle = css`
 
 interface TitleComponentProps {
   style?: React.CSSProperties;
+  content?: string;
+  onContentChange: (content: string) => void;
 }
 
-const TitleComponent: React.FC<TitleComponentProps> = ({ style }) => {
+const TitleComponent: React.FC<TitleComponentProps> = ({ style, onContentChange }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [title, setTitle] = useState('Click to edit title');
 
@@ -32,6 +35,7 @@ const TitleComponent: React.FC<TitleComponentProps> = ({ style }) => {
 
   const handleTitleBlur = () => {
     setIsEditing(false);
+    onContentChange(title);
   };
 
   return (

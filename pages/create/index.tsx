@@ -7,6 +7,7 @@ import Sidebar from '@/Modules/SideMenu/SideMenu';
 import { useState } from 'react';
 import { ComponentData } from '@/public/Types';
 import { StyleProvider } from '@/Modules/SideMenu/StyleContext';
+import axios from 'axios';
 
 const containerStyle = css`
   display: flex;
@@ -22,6 +23,7 @@ const Home = () => {
       id: Math.random().toString(36).substring(2, 9),
       type,
       style: { borderStyle: 'solid', borderWidth: '0' },
+      content: '', // Add initial content
     };
     setComponents([...components, newComponent]);
     setSelectedComponent(null);
@@ -32,14 +34,14 @@ const Home = () => {
   };
 
   const handleDeleteComponent = (id: string) => {
-    setComponents(components.filter(component => component.id !== id));
+    setComponents(components.filter((component) => component.id !== id));
     setSelectedComponent(null);
   };
 
   const handleUpdateStyle = (style: React.CSSProperties) => {
     if (!selectedComponent) return;
     setComponents(
-      components.map(component =>
+      components.map((component) =>
         component.id === selectedComponent.id
           ? { ...component, style }
           : component
@@ -49,6 +51,25 @@ const Home = () => {
 
   const handleReorderComponents = (newComponents: ComponentData[]) => {
     setComponents(newComponents);
+  };
+
+  const handleUpdateContent = (id: string, content: string) => {
+    setComponents(
+      components.map((component) =>
+        component.id === id ? { ...component, content } : component
+      )
+    );
+    console.log(components);
+  };
+
+  const handleSavePage = async () => {
+    try {
+      const response = await axios.post('/api/maker/create', components);
+      alert(`Page created successfully! View it at ${response.data.url}`);
+    } catch (error) {
+      console.error('Error creating page:', error);
+      alert('Failed to create page');
+    }
   };
 
   const componentStyles = components.reduce((acc, component) => {
@@ -67,6 +88,7 @@ const Home = () => {
           onSelectComponent={handleSelectComponent}
           onDeleteComponent={handleDeleteComponent}
           onReorderComponents={handleReorderComponents}
+          onUpdateContent={handleUpdateContent}
         />
         <StyleProvider>
           <Sidebar
@@ -77,6 +99,9 @@ const Home = () => {
           />
         </StyleProvider>
       </div>
+      <button onClick={handleSavePage} css={css`position: fixed; bottom: 20px; right: 20px; padding: 10px 20px; background-color: #0070f3; color: white; border: none; border-radius: 5px; cursor: pointer;`}>
+        Save Page
+      </button>
     </div>
   );
 };

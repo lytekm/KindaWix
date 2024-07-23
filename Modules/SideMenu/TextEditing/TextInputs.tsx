@@ -29,7 +29,7 @@ const TextInputs = ({ handleUpdateStyle, handleChange, saveStyle, handleColorCha
               onColorChange={handleColorChange}
             />
           </Dropdown>
-          <FontStyleControls onUpdateStyle={handleUpdateStyle} />
+          <FontStyleControls onUpdateStyle={handleUpdateStyle} handleChange={handleChange} />
           <BoxModelInputs
             type="Border"
             handleUpdateStyle={handleUpdateStyle}

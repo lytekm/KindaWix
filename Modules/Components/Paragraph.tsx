@@ -17,9 +17,11 @@ const paragraphStyle = css`
 
 interface ParagraphComponentProps {
   style?: React.CSSProperties;
+  content?: string;
+  onContentChange: (content: string) => void;
 }
 
-const ParagraphComponent: React.FC<ParagraphComponentProps> = ({ style }) => {
+const ParagraphComponent: React.FC<ParagraphComponentProps> = ({ style, onContentChange }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [paragraph, setParagraph] = useState('Click to edit paragraph text.');
 
@@ -33,6 +35,8 @@ const ParagraphComponent: React.FC<ParagraphComponentProps> = ({ style }) => {
 
   const handleParagraphBlur = () => {
     setIsEditing(false);
+    console.log(paragraph);
+    onContentChange(paragraph);
   };
 
   return (
@@ -44,7 +48,7 @@ const ParagraphComponent: React.FC<ParagraphComponentProps> = ({ style }) => {
           onBlur={handleParagraphBlur}
           css={paragraphStyle}
           style={style}
-          rows={4} // Optional: adjust rows to fit typical paragraph length
+          rows={4}
           autoFocus
         />
       ) : (

@@ -4,6 +4,7 @@ import { css } from '@emotion/react';
 import React from 'react';
 import Dropdown from '@/public/UI/Dropdown';
 import { useStyleContext } from '../StyleContext';
+import LabeledInput from './Input';
 
 const labelStyle = css`
   display: block;
@@ -40,9 +41,10 @@ const fontWeightStyle = css`
 
 interface FontStyleControlsProps {
   onUpdateStyle: (style: React.CSSProperties) => void;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const FontStyleControls: React.FC<FontStyleControlsProps> = ({ onUpdateStyle }) => {
+const FontStyleControls: React.FC<FontStyleControlsProps> = ({ onUpdateStyle, handleChange }) => {
 
   const { currentStyle } = useStyleContext();
 
@@ -112,6 +114,15 @@ const FontStyleControls: React.FC<FontStyleControlsProps> = ({ onUpdateStyle }) 
             Bolder
           </button>
         </div>
+        <LabeledInput
+          label="Font Size"
+          name="fontSize"
+          type="text"
+          value={currentStyle.fontSize?.toString() || '16'}
+          onChange={handleChange}
+          onBlur={() => {}}
+          onColorChange={() => {}}
+        />
     </Dropdown>
     </div>
   );
